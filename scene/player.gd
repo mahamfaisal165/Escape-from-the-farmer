@@ -8,6 +8,9 @@ extends CharacterBody2D
 
 var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity")
 
+# --- COIN VARIABLE ---
+var coins_collected: int = 0
+
 # --- TRAP VARIABLES ---
 var is_trapped: bool = false
 var escape_jump_count: int = 0
@@ -16,6 +19,12 @@ var current_cage: Node2D = null
 
 func _ready() -> void:
 	add_to_group("player")
+
+# --- COIN COLLECTION METHOD ---
+func add_coins(amount: int) -> void:
+	coins_collected += amount
+	print("Coins collected: ", coins_collected)
+	# (Optional: Update UI/HUD here if you have a score label)
 
 # Call this from the cage when trapped
 func get_trapped(cage_node: Node2D) -> void:

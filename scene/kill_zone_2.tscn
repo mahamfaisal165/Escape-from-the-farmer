@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://caaicccovl373"]
+
+[ext_resource type="Script" uid="uid://w3envwpsoqlt" path="res://kill_zone_2.gd" id="1_2i71y"]
+[ext_resource type="Texture2D" uid="uid://cabix78k8hgyb" path="res://assets/kill zone.png" id="2_e3ilb"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_npy4f"]
+atlas = ExtResource("2_e3ilb")
+region = Rect2(0, 40, 40, 40)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_3cfvr"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_npy4f")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3cfvr"]
+size = Vector2(39, 39)
+
+[node name="kill zone 2" type="Area2D" unique_id=1313356159]
+script = ExtResource("1_2i71y")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1441874925]
+sprite_frames = SubResource("SpriteFrames_3cfvr")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=586086555]
+position = Vector2(-0.5, 0.5)
+shape = SubResource("RectangleShape2D_3cfvr")
