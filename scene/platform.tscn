@@ -2,6 +2,8 @@
 
 [ext_resource type="Texture2D" uid="uid://cdq742qx26pd" path="res://assets/blocks.png" id="1_mi635"]
 
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_mel2l"]
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_s8bxr"]
 atlas = ExtResource("1_mi635")
 region = Rect2(0, 40, 40, 40)
@@ -20,12 +22,13 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mel2l"]
 size = Vector2(35.99344, 18.0234)
 
-[node name="platform" type="Area2D" unique_id=424490257]
+[node name="platform" type="StaticBody2D" unique_id=1121928441]
+physics_material_override = SubResource("PhysicsMaterial_mel2l")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=5542876]
 sprite_frames = SubResource("SpriteFrames_mel2l")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatedSprite2D" unique_id=557263952]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=557263952]
 position = Vector2(0.9970372, -1.73999e-05)
 rotation = 0.00592871
 shape = SubResource("RectangleShape2D_mel2l")

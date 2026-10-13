@@ -4,15 +4,23 @@ extends CharacterBody2D
 const SPEED = 300.0
 const JUMP_VELOCITY = -400.0
 
+# Multiplier to slow down falling (0.5 = falling at half speed)
+const FALL_GRAVITY_MULTIPLIER = 0.5 
+
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 @onready var animated_sprite = $AnimatedSprite2D
 
 func _physics_process(delta):
-	# Add the gravity when in the air
+	# Add gravity when in the air
 	if not is_on_floor():
-		velocity.y += gravity * delta
+		if velocity.y > 0:
+			# Player is falling down: apply reduced gravity to fall slower
+			velocity.y += gravity * FALL_GRAVITY_MULTIPLIER * delta
+		else:
+			# Player is jumping up: apply normal gravity
+			velocity.y += gravity * delta
 
 	# Handle Jump
 	if Input.is_action_just_pressed("ui_accept") and is_on_floor():
