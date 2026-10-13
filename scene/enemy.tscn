@@ -1,0 +1,76 @@
+[gd_scene format=3 uid="uid://bgxoh6vaivuol"]
+
+[ext_resource type="Script" uid="uid://c8wlwnksua165" path="res://scene/enemy.gd" id="1_f87vc"]
+[ext_resource type="Texture2D" uid="uid://85w6gaevo6jx" path="res://assets/enemy.png" id="2_8u16h"]
+[ext_resource type="Texture2D" uid="uid://cp0py47130fwy" path="res://assets/faint enemy.png" id="2_b7koy"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yvcfn"]
+atlas = ExtResource("2_b7koy")
+region = Rect2(0, 0, 40, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4gyqm"]
+atlas = ExtResource("2_8u16h")
+region = Rect2(0, 0, 40, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qi2p4"]
+atlas = ExtResource("2_8u16h")
+region = Rect2(40, 0, 40, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iifgy"]
+atlas = ExtResource("2_8u16h")
+region = Rect2(0, 40, 40, 40)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_mel2l"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yvcfn")
+}],
+"loop": 1,
+"name": &"faint",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4gyqm")
+}],
+"loop": 1,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qi2p4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_iifgy")
+}],
+"loop": 1,
+"name": &"walking",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_mel2l"]
+radius = 13.0
+height = 40.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_mel2l"]
+radius = 23.409399
+
+[node name="enemy" type="CharacterBody2D" unique_id=1968464752]
+script = ExtResource("1_f87vc")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1388589196]
+sprite_frames = SubResource("SpriteFrames_mel2l")
+animation = &"idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=533808704]
+shape = SubResource("CapsuleShape2D_mel2l")
+
+[node name="RayCast2D" type="RayCast2D" parent="." unique_id=932074062]
+target_position = Vector2(24, 0)
+
+[node name="Hitbox" type="Area2D" parent="." unique_id=14411301 groups=["enemy_hitbox"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" unique_id=446547313]
+shape = SubResource("CircleShape2D_mel2l")
