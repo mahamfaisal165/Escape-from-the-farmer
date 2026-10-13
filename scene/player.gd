@@ -1,55 +1,62 @@
 extends CharacterBody2D
 
-# Movement Parameters
-const SPEED = 300.0
-const JUMP_VELOCITY = -400.0
+@export var speed: float = 200.0
+@export var jump_velocity: float = -400.0
+@export var poop_scene: PackedScene = preload("res://scene/poop.tscn")
 
-# Multiplier to slow down falling (0.5 = falling at half speed)
-const FALL_GRAVITY_MULTIPLIER = 0.5 
+@onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 
-# Get the gravity from the project settings to be synced with RigidBody nodes.
-var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
+var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity")
 
-@onready var animated_sprite = $AnimatedSprite2D
+func _ready() -> void:
+	# Add player to group so the enemy can find them easily
+	add_to_group("player")
 
-func _physics_process(delta):
-	# Add gravity when in the air
+func _physics_process(delta: float) -> void:
+	# Apply gravity if not on the floor
 	if not is_on_floor():
-		if velocity.y > 0:
-			# Player is falling down: apply reduced gravity to fall slower
-			velocity.y += gravity * FALL_GRAVITY_MULTIPLIER * delta
-		else:
-			# Player is jumping up: apply normal gravity
-			velocity.y += gravity * delta
+		velocity.y += gravity * delta
 
-	# Handle Jump
+	# Handle jump
 	if Input.is_action_just_pressed("ui_accept") and is_on_floor():
-		velocity.y = JUMP_VELOCITY
+		velocity.y = jump_velocity
 
-	# Get horizontal direction: -1 (left), 1 (right), or 0 (idle)
-	var direction = Input.get_axis("ui_left", "ui_right")
-
+	# Get horizontal movement direction (-1, 0, 1)
+	var direction := Input.get_axis("ui_left", "ui_right")
 	if direction != 0:
-		velocity.x = direction * SPEED
+		velocity.x = direction * speed
+		if direction < 0:
+			animated_sprite.play("left")
+		else:
+			animated_sprite.play("right")
 	else:
-		velocity.x = move_toward(velocity.x, 0, SPEED)
+		velocity.x = move_toward(velocity.x, 0, speed)
+		if is_on_floor():
+			animated_sprite.play("idle")
 
-	# Update Sprite Animations
-	update_animations(direction)
+	# Play jump animation if airborne
+	if not is_on_floor() and velocity.y < 0:
+		animated_sprite.play("jump")
 
-	# Apply physics movement
 	move_and_slide()
 
-func update_animations(direction):
-	if not is_on_floor():
-		# Play jump animation when in mid-air
-		animated_sprite.play("jump")
-	elif direction < 0:
-		# Moving left
-		animated_sprite.play("left")
-	elif direction > 0:
-		# Moving right
-		animated_sprite.play("right")
-	else:
-		# Standing still on ground
-		animated_sprite.play("idle")
+	# Handle throwing poop on left-click ("throw" action)
+	if Input.is_action_just_pressed("throw"):
+		throw_poop()
+
+func throw_poop() -> void:
+	if not poop_scene:
+		return
+	
+	var poop_instance = poop_scene.instantiate()
+	poop_instance.global_position = global_position
+	
+	# Aim towards mouse cursor position
+	var mouse_pos = get_global_mouse_position()
+	var direction = (mouse_pos - global_position).normalized()
+	
+	if poop_instance.has_method("setup"):
+		poop_instance.setup(direction)
+	
+	# Add poop instance to the main game scene
+	get_tree().current_scene.add_child(poop_instance)

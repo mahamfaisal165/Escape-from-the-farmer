@@ -57,7 +57,7 @@ height = 40.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_mel2l"]
 radius = 23.409399
 
-[node name="enemy" type="CharacterBody2D" unique_id=1968464752]
+[node name="enemy" type="CharacterBody2D" unique_id=1968464752 groups=["enemy", "enemy_hitbox"]]
 script = ExtResource("1_f87vc")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1388589196]
@@ -68,7 +68,7 @@ animation = &"idle"
 shape = SubResource("CapsuleShape2D_mel2l")
 
 [node name="RayCast2D" type="RayCast2D" parent="." unique_id=932074062]
-target_position = Vector2(24, 0)
+target_position = Vector2(0, 40)
 
 [node name="Hitbox" type="Area2D" parent="." unique_id=14411301 groups=["enemy_hitbox"]]
 

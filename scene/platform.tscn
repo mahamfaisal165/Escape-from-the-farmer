@@ -22,7 +22,7 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mel2l"]
 size = Vector2(35.99344, 18.0234)
 
-[node name="platform" type="StaticBody2D" unique_id=1121928441]
+[node name="platform" type="AnimatableBody2D" unique_id=729728026]
 physics_material_override = SubResource("PhysicsMaterial_mel2l")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=5542876]
