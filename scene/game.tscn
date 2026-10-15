@@ -12,6 +12,8 @@
 [ext_resource type="PackedScene" uid="uid://cixly7pfmdico" path="res://scene/kill_zone.tscn" id="10_sng2h"]
 [ext_resource type="PackedScene" uid="uid://dvi74evg3k7lx" path="res://scene/coin.tscn" id="10_yq8tf"]
 [ext_resource type="PackedScene" uid="uid://caaicccovl373" path="res://scene/kill_zone_2.tscn" id="11_5g16k"]
+[ext_resource type="Script" uid="uid://bros5jjlmi4t6" path="res://scene/game_manager.gd" id="13_5g16k"]
+[ext_resource type="Script" uid="uid://bi7pnv5nphn07" path="res://scene/area_2d.gd" id="14_81276"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_p1ry8"]
 texture = ExtResource("2_33cqm")
@@ -106,6 +108,12 @@ _data = {
 &"gi": SubResource("Animation_ll5lq")
 }
 
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_mel2l"]
+distance = -413.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mel2l"]
+size = Vector2(36.5, 28.5)
+
 [node name="game" type="Node2D" unique_id=414162046]
 
 [node name="enemy" parent="." unique_id=1968464752 instance=ExtResource("8_ll5lq")]
@@ -172,13 +180,13 @@ position = Vector2(1341, 12)
 [node name="kill zones" type="Node" parent="." unique_id=1233124175]
 
 [node name="kill zone" parent="kill zones" unique_id=938710205 instance=ExtResource("10_sng2h")]
-position = Vector2(1822, 21)
+position = Vector2(1820, 20)
 
 [node name="kill zone2" parent="kill zones" unique_id=391406019 instance=ExtResource("10_sng2h")]
 position = Vector2(2020, 20)
 
 [node name="kill zone 2" parent="kill zones" unique_id=1313356159 instance=ExtResource("11_5g16k")]
-position = Vector2(1862, 21)
+position = Vector2(1860, 20)
 
 [node name="kill zone 3" parent="kill zones" unique_id=426482364 instance=ExtResource("11_5g16k")]
 position = Vector2(2060, 20)
@@ -199,3 +207,31 @@ position = Vector2(1948, -22)
 
 [node name="coin2" parent="coins" unique_id=58457812 instance=ExtResource("10_yq8tf")]
 position = Vector2(1240, 14)
+
+[node name="game manager" type="Node" parent="." unique_id=1634445937]
+script = ExtResource("13_5g16k")
+
+[node name="score label" type="Label" parent="game manager" unique_id=1675492963]
+offset_right = 40.0
+offset_bottom = 23.0
+text = "Eggs Collected"
+
+[node name="killzone line" type="Area2D" parent="." unique_id=315292291]
+script = ExtResource("14_81276")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="killzone line" unique_id=2059688404]
+shape = SubResource("WorldBoundaryShape2D_mel2l")
+
+[node name="Spawn points" type="Node" parent="." unique_id=1966269766 groups=["spawn_points"]]
+
+[node name="Spawn ponit 1" type="Area2D" parent="Spawn points" unique_id=645701038 groups=["spawn_points"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Spawn points/Spawn ponit 1" unique_id=417896064]
+position = Vector2(754, 23)
+shape = SubResource("RectangleShape2D_mel2l")
+
+[node name="Spawn ponit 2" type="Area2D" parent="Spawn points" unique_id=324293454 groups=["spawn_points"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Spawn points/Spawn ponit 2" unique_id=512572865]
+position = Vector2(1661, -17)
+shape = SubResource("RectangleShape2D_mel2l")
