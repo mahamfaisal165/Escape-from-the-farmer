@@ -1,0 +1,33 @@
+[gd_scene format=3 uid="uid://dskyg63t6yfxy"]
+
+[ext_resource type="Script" uid="uid://bqsftn56dtvb5" path="res://knife.gd" id="1_8wt88"]
+[ext_resource type="Texture2D" uid="uid://egfk24sst437" path="res://assets/knife.png" id="2_s4gn3"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qjenl"]
+atlas = ExtResource("2_s4gn3")
+region = Rect2(0, 0, 40, 40)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_mel2l"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qjenl")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3cfvr"]
+size = Vector2(26.277958, 22.037651)
+
+[node name="knife" type="Area2D" unique_id=57171926]
+script = ExtResource("1_8wt88")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1081619135]
+sprite_frames = SubResource("SpriteFrames_mel2l")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatedSprite2D" unique_id=1707497485]
+position = Vector2(5.88869, -2.595827)
+rotation = -0.8185594
+shape = SubResource("RectangleShape2D_3cfvr")
