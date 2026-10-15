@@ -1,6 +1,8 @@
 extends Area2D
+@onready var game_manager: Node = %"game manager"
 
 @export var coin_value: int = 1
+
 
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 
@@ -16,6 +18,7 @@ func _on_body_entered(body: Node2D) -> void:
 	# Check if player collected the coin
 	if body.is_in_group("player") or body.name == "player":
 		collect(body)
+		game_manager.add_point()
 
 func collect(player_node: Node2D) -> void:
 	# If player has a score collection method, update it
