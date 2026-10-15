@@ -111,12 +111,13 @@ _data = {
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_mel2l"]
 distance = -413.0
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_mel2l"]
-size = Vector2(36.5, 28.5)
-
 [node name="game" type="Node2D" unique_id=414162046]
 
-[node name="enemy" parent="." unique_id=1968464752 instance=ExtResource("8_ll5lq")]
+[node name="enemy2" parent="." unique_id=1968464752 instance=ExtResource("8_ll5lq")]
+position = Vector2(1562, -1)
+scale = Vector2(2, 2)
+
+[node name="enemy" parent="." unique_id=1958551914 instance=ExtResource("8_ll5lq")]
 position = Vector2(-321, 0)
 scale = Vector2(2, 2)
 
@@ -227,17 +228,3 @@ script = ExtResource("14_81276")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="killzone line" unique_id=2059688404]
 shape = SubResource("WorldBoundaryShape2D_mel2l")
-
-[node name="Spawn points" type="Node" parent="." unique_id=1966269766 groups=["spawn_points"]]
-
-[node name="Spawn ponit 1" type="Area2D" parent="Spawn points" unique_id=645701038 groups=["spawn_points"]]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Spawn points/Spawn ponit 1" unique_id=417896064]
-position = Vector2(754, 23)
-shape = SubResource("RectangleShape2D_mel2l")
-
-[node name="Spawn ponit 2" type="Area2D" parent="Spawn points" unique_id=324293454 groups=["spawn_points"]]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Spawn points/Spawn ponit 2" unique_id=512572865]
-position = Vector2(1661, -17)
-shape = SubResource("RectangleShape2D_mel2l")
