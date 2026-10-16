@@ -35,6 +35,7 @@ size = Vector2(28, 32)
 
 [node name="portal" type="Area2D" unique_id=1814800812]
 script = ExtResource("1_pno75")
+next_scene_path = "uid://xyuxswjy5f4p"
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1810257283]
 sprite_frames = SubResource("SpriteFrames_mel2l")
