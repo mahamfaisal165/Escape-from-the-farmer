@@ -119,7 +119,11 @@ func _physics_process(delta: float) -> void:
 			var collision = get_slide_collision(i)
 			var collider = collision.get_collider()
 			if collider and (collider == player or collider.is_in_group("player")):
-				reload_game()
+				# Trigger the player's die() function so the death sound plays!
+				if collider.has_method("die"):
+					collider.die()
+				else:
+					get_tree().call_deferred("reload_current_scene")
 
 func start_respawn_sequence() -> void:
 	if is_respawning:
@@ -145,7 +149,3 @@ func stun() -> void:
 	stun_timer = 3.0
 	velocity.x = 0
 	animated_sprite.play("faint")
-
-func reload_game() -> void:
-	if is_inside_tree() and get_tree() != null:
-		get_tree().call_deferred("reload_current_scene")

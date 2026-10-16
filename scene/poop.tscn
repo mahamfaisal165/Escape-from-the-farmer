@@ -1,9 +1,12 @@
 [gd_scene format=3 uid="uid://covc2flkukuym"]
 
+[ext_resource type="AudioStream" uid="uid://c3peeub11xmrx" path="res://music/weapon.mp3" id="2_dis0t"]
 [ext_resource type="Texture2D" uid="uid://c70hrg4mmmys6" path="res://assets/poop.png" id="2_qvxsp"]
 
 [sub_resource type="GDScript" id="GDScript_6oufa"]
 script/source = "extends Area2D
+
+@onready var weapon_sound: AudioStreamPlayer2D = $WeaponSound
 
 @export var speed: float = 450.0
 var direction: Vector2 = Vector2.ZERO
@@ -12,6 +15,10 @@ func setup(dir: Vector2) -> void:
 	direction = dir
 
 func _ready() -> void:
+	# Play sound as soon as the weapon/projectile is spawned/fired
+	if weapon_sound:
+		weapon_sound.play()
+
 	# Connect area entered signal safely via code
 	if not area_entered.is_connected(_on_area_entered):
 		area_entered.connect(_on_area_entered)
@@ -28,14 +35,28 @@ func _on_area_entered(area: Area2D) -> void:
 		var enemy_node = area.get_parent() # Gets the root 'enemy' node
 		if enemy_node and enemy_node.has_method(\"stun\"):
 			enemy_node.stun()
-		queue_free()
+		
+		# Optional: If you want the projectile to wait for the sound to finish before freeing, 
+		# use the safe destroy method below. Otherwise, queue_free() deletes it immediately.
+		destroy_projectile()
 
 func _on_body_entered(body: Node2D) -> void:
 	# Fallback if enemy body itself is hit
 	if body.name == \"enemy\" or body.is_in_group(\"enemy\"):
 		if body.has_method(\"stun\"):
 			body.stun()
-		queue_free()
+		destroy_projectile()
+
+func destroy_projectile() -> void:
+	# Hides sprite and disables collision so it stops interacting, 
+	# but lets the sound finish playing if it's still going
+	$CollisionShape2D.set_deferred(\"disabled\", true)
+	hide()
+	
+	if weapon_sound and weapon_sound.playing:
+		await weapon_sound.finished
+		
+	queue_free()
 "
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vqr27"]
@@ -65,3 +86,7 @@ sprite_frames = SubResource("SpriteFrames_mel2l")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1929651676]
 position = Vector2(-1, 1)
 shape = SubResource("CircleShape2D_mel2l")
+
+[node name="WeaponSound" type="AudioStreamPlayer2D" parent="." unique_id=1395552385]
+stream = ExtResource("2_dis0t")
+volume_db = 10.0

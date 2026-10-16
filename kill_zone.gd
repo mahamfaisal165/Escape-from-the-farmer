@@ -12,14 +12,16 @@ func _on_body_entered(body: Node2D) -> void:
 		die(body)
 
 func die(player_node: Node2D) -> void:
-	# Optional: Disable player movement so they can't keep moving while dying
-	if player_node.has_method("set_physics_process"):
-		player_node.set_physics_process(false)
-	
-	# Wait for the reload delay
-	if reload_delay > 0:
-		await get_tree().create_timer(reload_delay).timeout
-	
-	# Reload current scene safely
-	if is_inside_tree() and get_tree() != null:
-		get_tree().call_deferred("reload_current_scene")
+	# Call the player's die() function so it plays the death sound!
+	if player_node.has_method("die"):
+		player_node.die()
+	else:
+		# Fallback if player doesn't have die()
+		if player_node.has_method("set_physics_process"):
+			player_node.set_physics_process(false)
+		
+		if reload_delay > 0:
+			await get_tree().create_timer(reload_delay).timeout
+		
+		if is_inside_tree() and get_tree() != null:
+			get_tree().call_deferred("reload_current_scene")

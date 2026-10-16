@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://caaicccovl373"]
 
-[ext_resource type="Script" uid="uid://w3envwpsoqlt" path="res://kill_zone_2.gd" id="1_2i71y"]
+[ext_resource type="Script" uid="uid://w3envwpsoqlt" path="res://scene/kill_zone_2.gd" id="1_2i71y"]
 [ext_resource type="Texture2D" uid="uid://cabix78k8hgyb" path="res://assets/kill zone.png" id="2_e3ilb"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_npy4f"]

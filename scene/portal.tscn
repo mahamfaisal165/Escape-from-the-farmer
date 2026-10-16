@@ -1,7 +1,8 @@
 [gd_scene format=3 uid="uid://u1cjax8c41gn"]
 
-[ext_resource type="Script" uid="uid://dx5l54i252yso" path="res://portal.gd" id="1_pno75"]
+[ext_resource type="Script" uid="uid://dx5l54i252yso" path="res://scene/portal.gd" id="1_pno75"]
 [ext_resource type="Texture2D" uid="uid://btu3q15c4uluu" path="res://assets/portal.png" id="2_cfsmh"]
+[ext_resource type="AudioStream" uid="uid://cntoo6qo8vtyw" path="res://music/portal.mp3" id="3_cfsmh"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_6r214"]
 atlas = ExtResource("2_cfsmh")
@@ -43,6 +44,10 @@ animation = &"close"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=989805829]
 shape = SubResource("RectangleShape2D_mel2l")
+
+[node name="PortalSound" type="AudioStreamPlayer2D" parent="." unique_id=1288684646]
+stream = ExtResource("3_cfsmh")
+volume_db = 15.0
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="body_exited" from="." to="." method="_on_body_exited"]

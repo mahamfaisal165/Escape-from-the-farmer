@@ -6,6 +6,10 @@ extends CharacterBody2D
 
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 
+# Audio nodes linked to your scene tree
+@onready var jump_sound: AudioStreamPlayer2D = $JumpSound
+@onready var death_sound: AudioStreamPlayer2D = $DeathSound
+
 var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 # --- COIN VARIABLE ---
@@ -17,6 +21,8 @@ var escape_jump_count: int = 0
 const JUMPS_TO_ESCAPE: int = 2
 var current_cage: Node2D = null
 
+var is_dead: bool = false
+
 func _ready() -> void:
 	add_to_group("player")
 
@@ -24,7 +30,25 @@ func _ready() -> void:
 func add_coins(amount: int) -> void:
 	coins_collected += amount
 	print("Coins collected: ", coins_collected)
-	# (Optional: Update UI/HUD here if you have a score label)
+
+# Call this from your kill zone or enemy when the player dies
+func die() -> void:
+	if is_dead:
+		return
+	is_dead = true
+	
+	# Play death sound globally so it plays completely even when the scene reloads
+	if death_sound and death_sound.stream:
+		var temp_sound = AudioStreamPlayer.new()
+		temp_sound.stream = death_sound.stream
+		get_tree().root.add_child(temp_sound)
+		temp_sound.play()
+		temp_sound.finished.connect(temp_sound.queue_free)
+	
+	# Hide sprite, stop physics, and instantly reload the level
+	hide()
+	set_physics_process(false)
+	get_tree().reload_current_scene()
 
 # Call this from the cage when trapped
 func get_trapped(cage_node: Node2D) -> void:
@@ -34,10 +58,12 @@ func get_trapped(cage_node: Node2D) -> void:
 	escape_jump_count = 0
 	current_cage = cage_node
 	velocity = Vector2.ZERO
-	# Center player inside the cage
 	global_position = cage_node.global_position
 
 func _physics_process(delta: float) -> void:
+	if is_dead:
+		return
+
 	# --- TRAP ESCAPE MECHANIC ---
 	if is_trapped:
 		velocity = Vector2.ZERO
@@ -47,10 +73,13 @@ func _physics_process(delta: float) -> void:
 			escape_jump_count += 1
 			animated_sprite.play("jump")
 			
+			# Play jump sound on escape attempt
+			if jump_sound:
+				jump_sound.play()
+			
 			if escape_jump_count >= JUMPS_TO_ESCAPE:
 				is_trapped = false
 				
-				# Tell the cage to play its open animation
 				if current_cage and is_instance_valid(current_cage) and current_cage.has_method("open_cage"):
 					current_cage.open_cage()
 				
@@ -69,6 +98,10 @@ func _physics_process(delta: float) -> void:
 
 	if Input.is_action_just_pressed("ui_accept") and is_on_floor():
 		velocity.y = jump_velocity
+		
+		# Play jump sound effect here!
+		if jump_sound:
+			jump_sound.play()
 
 	var direction := Input.get_axis("ui_left", "ui_right")
 	if direction != 0:
