@@ -54,8 +54,8 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_mel2l"]
-size = Vector2(33.5, 25.75)
+[sub_resource type="CircleShape2D" id="CircleShape2D_p3heq"]
+radius = 15.311862
 
 [node name="cage" type="Area2D" unique_id=1636244691]
 script = SubResource("GDScript_hatau")
@@ -66,6 +66,6 @@ sprite_frames = SubResource("SpriteFrames_mel2l")
 animation = &"open"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=86592624]
-position = Vector2(6.5, 2.25)
+position = Vector2(7, 6)
 scale = Vector2(2, 2)
-shape = SubResource("RectangleShape2D_mel2l")
+shape = SubResource("CircleShape2D_p3heq")

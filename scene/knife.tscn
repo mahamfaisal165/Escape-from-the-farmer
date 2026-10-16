@@ -27,7 +27,7 @@ script = ExtResource("1_8wt88")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1081619135]
 sprite_frames = SubResource("SpriteFrames_mel2l")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatedSprite2D" unique_id=1707497485]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1707497485]
 position = Vector2(5.88869, -2.595827)
 rotation = -0.8185594
 shape = SubResource("RectangleShape2D_3cfvr")

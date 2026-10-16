@@ -1,7 +1,7 @@
 extends CharacterBody2D
 
 @export var speed: float = 200.0
-@export var jump_velocity: float = -400.0
+@export var jump_velocity: float = -380.0
 @export var poop_scene: PackedScene = preload("res://scene/poop.tscn")
 
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
